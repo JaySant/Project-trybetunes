@@ -1,10 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Headers from '../components/Header';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import Loading from './Loading';
 
 class Search extends React.Component {
   state = {
     isDisabled: true,
     nameArtist: '',
+    artists: [],
+    loading: false,
+    name: '',
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -16,37 +22,65 @@ class Search extends React.Component {
   validateButtonDisabled = () => {
     const { nameArtist } = this.state;
     const lenghtName = 2;
-    if (nameArtist.length >= lenghtName) {
-      this.setState({ isDisabled: false });
-    } else {
-      this.setState({ isDisabled: true });
-    }
+    this.setState({ isDisabled: nameArtist.length < lenghtName });
+  }
+
+  searchAlbum = (nameSearch) => {
+    this.setState({
+      loading: true,
+      nameArtist: nameSearch,
+      name: nameSearch,
+    }, async () => {
+      const artists = await searchAlbumsAPI(nameSearch);
+      this.setState({ nameArtist: '', loading: false, artists });
+    });
   }
 
   render() {
-    const { isDisabled, nameArtist } = this.state;
+    const { isDisabled, nameArtist, artists, loading, name } = this.state;
     return (
       <>
         <Headers />
-        <div data-testid="page-search" />
-        <form>
-          <input
-            data-testid="search-artist-input"
-            value={ nameArtist }
-            name="nameArtist"
-            type="text"
-            placeholder="Nome do Artista"
-            onChange={ this.handleChange }
+        {loading ? <Loading /> : (
+          <div data-testid="page-search">
+            <form>
+              <input
+                data-testid="search-artist-input"
+                value={ nameArtist }
+                name="nameArtist"
+                type="text"
+                placeholder="Nome do Artista"
+                onChange={ this.handleChange }
 
-          />
-          <button
-            data-testid="search-artist-button"
-            type="button"
-            disabled={ isDisabled }
+              />
+              <button
+                data-testid="search-artist-button"
+                type="button"
+                disabled={ isDisabled }
+                onClick={ () => { this.searchAlbum(nameArtist); } }
+              >
+                Entrar
+              </button>
+            </form>
+          </div>
+        )}
+        <h1>
+          Resultado de álbuns de:
+          {' '}
+          {name}
+        </h1>
+        {!artists.length && <h2>Nenhum álbum foi encontrado</h2>}
+        {artists.map((artist) => (
+          <Link
+            data-testid={ `link-to-album-${artist.collectionId}` }
+            to={ `/album/${artist.collectionId}` }
+            key={ artist.collectionId }
           >
-            Entrar
-          </button>
-        </form>
+            <p>{artist.collectionName}</p>
+            <p>{artist.artistName}</p>
+            <img src={ artist.artworkUrl100 } alt="capa-do-album" />
+          </Link>
+        ))}
       </>
     );
   }
