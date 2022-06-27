@@ -38,6 +38,7 @@ class Search extends React.Component {
 
   render() {
     const { isDisabled, nameArtist, artists, loading, name } = this.state;
+    const { nome } = this.props;
     return (
       <>
         <Headers />
@@ -77,8 +78,8 @@ class Search extends React.Component {
             key={ artist.collectionId }
           >
             <p>{artist.collectionName}</p>
-            <p>{artist.artistName}</p>
             <img src={ artist.artworkUrl100 } alt="capa-do-album" />
+            <p>{artist.artistName}</p>
           </Link>
         ))}
       </>
