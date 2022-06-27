@@ -38,7 +38,6 @@ class Search extends React.Component {
 
   render() {
     const { isDisabled, nameArtist, artists, loading, name } = this.state;
-    const { nome } = this.props;
     return (
       <>
         <Headers />

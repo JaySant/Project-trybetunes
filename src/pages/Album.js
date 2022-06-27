@@ -28,8 +28,8 @@ class Album extends React.Component {
         <Headers />
         {loading ? <Loading /> : (
           <div data-testid="page-album">
+            <h1 data-testid="album-name">{musics[0]?.collectionName}</h1>
             <p data-testid="artist-name">{musics[0]?.artistName}</p>
-            <p data-testid="album-name">{musics[0]?.collectionName}</p>
             {musics.map((music, index) => (
               index > 0
               && <MusicCard key={ music.trackId } { ...music } />
