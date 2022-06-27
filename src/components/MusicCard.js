@@ -34,7 +34,7 @@ class MusicCard extends React.Component {
   }
 
   render() {
-    const { trackName, previewUrl, trackId } = this.props;
+    const { trackName, previewUrl, trackId, handleUpdate } = this.props;
     const { isFavorite, loading } = this.state;
     return (
       <div>
@@ -52,7 +52,10 @@ class MusicCard extends React.Component {
             type="checkbox"
             id={ trackId }
             checked={ isFavorite }
-            onChange={ () => { this.handleFavoriteMusic(this.props); } }
+            onChange={ () => {
+              this.handleFavoriteMusic(this.props);
+              handleUpdate();
+            } }
           />
           Favorita
         </label>
@@ -63,9 +66,14 @@ class MusicCard extends React.Component {
 }
 
 MusicCard.propTypes = {
-  trackName: PropTypes.string.isRequired,
-  previewUrl: PropTypes.string.isRequired,
-  trackId: PropTypes.number.isRequired,
+  trackName: PropTypes.string,
+  previewUrl: PropTypes.string,
+  trackId: PropTypes.number,
+  handleUpdate: PropTypes.func,
+}.isRequired;
+
+MusicCard.defaultProps = {
+  handleUpdate: () => {},
 };
 
 export default MusicCard;
