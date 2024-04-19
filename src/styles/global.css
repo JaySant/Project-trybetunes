@@ -1,0 +1,12 @@
+:root {
+    --black: #000000;
+    --yellow: #ECB800;
+    --purple: #7700ff; 
+    --gray: #A6A6A6;
+    --white: #FFFFFF;
+}
+
+span, h1, p, input, button, div {
+    font-family: "Red Hat Display", sans-serif;
+    color: var(--white);
+}

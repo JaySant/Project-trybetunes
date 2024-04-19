@@ -1,5 +1,5 @@
 import React from 'react';
-import Headers from '../components/Header';
+import Headers from '../components/Header/Header';
 
 class ProfileEdit extends React.Component {
   render() {

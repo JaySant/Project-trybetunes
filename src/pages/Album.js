@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Headers from '../components/Header';
+import Headers from '../components/Header/Header';
 import musicsAPI from '../services/musicsAPI';
 import Loading from './Loading';
-import MusicCard from '../components/MusicCard';
+import MusicCard from '../components/MusicCard/MusicCard';
 
 class Album extends React.Component {
   state = {
